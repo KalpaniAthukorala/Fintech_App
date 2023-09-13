@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/screens/expenses/expense_form.dart';
+import 'package:flutter1/screens/expenses/expense_service.dart';
 import 'package:flutter1/services/auth.dart';
+// Import the expense_service.dart file
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -155,7 +157,38 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              // Rest of your home page content...
+              // Add a section to display expenses
+              Expanded(
+                child: FutureBuilder<List<Map<String, dynamic>>>(
+                  future: getExpenses(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final expenseList = snapshot.data;
+                      return ListView.builder(
+                        itemCount: expenseList?.length,
+                        itemBuilder: (context, index) {
+                          final expense = expenseList?[index];
+                          return Card(
+                            elevation: 4.0,
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: ListTile(
+                              title: Text(expense?['name']),
+                              subtitle: Text(
+                                'Amount: \$${expense?['amount']}',
+                              ),
+                              // Customize how you display each expense card here
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),
