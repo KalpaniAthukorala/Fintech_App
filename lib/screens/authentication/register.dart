@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter1/constants/colors.dart';
 import 'package:flutter1/constants/styles.dart';
 import 'package:flutter1/services/auth.dart';
 import 'package:flutter1/constants/description.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;
@@ -12,16 +15,18 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
-// ignore: camel_case_types
 class _RegisterState extends State<Register> {
   final AuthServices _auth = AuthServices();
 
-  //from key
+  // Form key
   final _formKey = GlobalKey<FormState>();
-  //email password states
+  // Email and password states
   String email = "";
   String password = "";
   String error = "";
+  // Profile picture
+  XFile? imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,17 +41,19 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.only(left: 15, right: 10),
           child: Column(
             children: [
-              //descrption
+              // Description
               const Text(
                 description,
                 style: descriptionStyle,
               ),
 
               Center(
-                child: Image.asset(
-                  'assets/images/man.png',
-                  height: 100,
-                ),
+                child: imageFile != null
+                    ? Image.file(File(imageFile!.path), height: 100)
+                    : Image.asset(
+                        'assets/images/man.png',
+                        height: 100,
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -54,7 +61,7 @@ class _RegisterState extends State<Register> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      //email
+                      // Email
                       TextFormField(
                         style: TextStyle(color: Colors.white),
                         decoration: textInputDecoration,
@@ -67,7 +74,7 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       const SizedBox(height: 20),
-                      //password
+                      // Password
                       TextFormField(
                         obscureText: true,
                         style: TextStyle(color: Colors.white),
@@ -82,9 +89,9 @@ class _RegisterState extends State<Register> {
                           });
                         },
                       ),
-                      //google
+                      // Google
                       const SizedBox(height: 20),
-                      //error text
+                      // Error text
                       Text(
                         error,
                         style: TextStyle(color: Colors.red),
@@ -95,7 +102,7 @@ class _RegisterState extends State<Register> {
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(
-                        //sing in with google
+                        // Sign in with Google
                         onTap: () {},
                         child: Center(
                           child: Image.asset(
@@ -105,7 +112,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      //register
+                      // Register
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -117,7 +124,7 @@ class _RegisterState extends State<Register> {
                             width: 10,
                           ),
                           GestureDetector(
-                            //go to the signin page
+                            // Go to the signin page
                             onTap: () {
                               widget.toggle();
                             },
@@ -130,20 +137,29 @@ class _RegisterState extends State<Register> {
                         ],
                       ),
 
-                      //button
+                      // Button
                       const SizedBox(
                         height: 20,
                       ),
                       GestureDetector(
-                        //methode for login user
+                        // Method for registering user
                         onTap: () async {
+                          // Select a profile picture
+                          final pickedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (pickedImage != null) {
+                            setState(() {
+                              imageFile = pickedImage;
+                            });
+                          }
+
                           dynamic result = await _auth
                               .registerWithEmailAndPassword(email, password);
 
                           if (result == null) {
-                            //error
+                            // Error
                             setState(() {
-                              error = "please enter a valid email!";
+                              error = "Please enter a valid email!";
                             });
                           }
                         },
@@ -166,7 +182,7 @@ class _RegisterState extends State<Register> {
                       const SizedBox(
                         height: 15,
                       ),
-                      //anon
+                      // Anon
                     ],
                   ),
                 ),

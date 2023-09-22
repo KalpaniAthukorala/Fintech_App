@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/screens/expenses/expense_form.dart';
 import 'package:flutter1/screens/expenses/expense_service.dart';
+import 'package:flutter1/screens/income/income_form.dart';
+import 'package:flutter1/screens/profile/profilePage.dart';
 import 'package:flutter1/services/auth.dart';
-// Import the expense_service.dart file
+
+void main() {
+  runApp(const Home());
+}
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -21,7 +26,27 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Add a function to determine if it's morning or evening and get the day
+  void _navigateToIncomeForm(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => IncomeForm()),
+    );
+  }
+
+  void _navigateToProfilePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfilePage()),
+    );
+  }
+
+  void _navigateToHomePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Home()),
+    );
+  }
+
   String _getGreeting() {
     final hour = DateTime.now().hour;
     final day = DateTime.now().toLocal().weekday;
@@ -57,147 +82,236 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    String greeting = _getGreeting();
+
+    // Get screen width
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          actions: [
-            ElevatedButton(
-              style: const ButtonStyle(),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              child: const Icon(Icons.logout),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              // Add a card at the top with the greeting message
-              Card(
-                elevation: 4.0,
-                margin: const EdgeInsets.only(bottom: 20.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+      home: DefaultTabController(
+        length: 2, // Number of tabs
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            leading: Builder(
+              builder: (context) => IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer(); // Open the drawer
+                },
+              ),
+            ),
+            actions: [
+              ElevatedButton(
+                style: const ButtonStyle(),
+                onPressed: () async {
+                  await _auth.signOut();
+                },
+                child: const Icon(Icons.logout),
+              )
+            ],
+          ),
+          // Add the drawer
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                // Drawer header
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                  ),
                   child: Text(
-                    _getGreeting(),
-                    style: const TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
+                    'Drawer Header',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
                     ),
                   ),
                 ),
-              ),
-              // Add a row for total balance, total income, and total expenses
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // Drawer items
+                ListTile(
+                  title: Text('Home'),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    _navigateToHomePage(context); // Navigate to ProfilePage
+                  },
+                ),
+                ListTile(
+                  title: Text('Expenses'),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    _navigateToExpenseForm(context); // Navigate to ProfilePage
+                  },
+                ),
+                ListTile(
+                  title: Text('Income'),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawers
+                    _navigateToIncomeForm(context); // Navigate to ProfilePage
+                  },
+                ),
+                // Add a ListTile for ProfilePage
+                ListTile(
+                  title: Text('Profile'),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    _navigateToProfilePage(context); // Navigate to ProfilePage
+                  },
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              // First Tab (Home)
+              Column(
                 children: [
-                  // Total Balance
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  // Add the GreetingCard widget here
+                  GreetingCard(
+                    greeting,
+                    width: screenWidth, // Pass the screen width
+                  ),
+                  const SizedBox(height: 20.0), // Add spacing
+
+                  // Add a row for total balance, total income, and total expenses
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Total Balance',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
+                      // Total Balance
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          Text(
+                            '\$100055.00', // Replace with your total balance value
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '\$1000.00', // Replace with your total balance value
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      // Total Income
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Income',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          Text(
+                            '\$500.00', // Replace with your total income value
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Total Expenses
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Expenses',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          Text(
+                            '\$500.00', // Replace with your total expenses value
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  // Total Income
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total Income',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      Text(
-                        '\$500.00', // Replace with your total income value
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Total Expenses
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Total Expenses',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      Text(
-                        '\$500.00', // Replace with your total expenses value
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  // Add a section to display expenses
+                  Expanded(
+                    child: FutureBuilder<List<Map<String, dynamic>>>(
+                      future: getExpenses(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          final expenseList = snapshot.data;
+                          return ListView.builder(
+                            itemCount: expenseList?.length,
+                            itemBuilder: (context, index) {
+                              final expense = expenseList?[index];
+                              return Card(
+                                elevation: 4.0,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: ListTile(
+                                  title: Text(expense?['name']),
+                                  subtitle: Text(
+                                    'Amount: \$${expense?['amount']}',
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
-              // Add a section to display expenses
-              Expanded(
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: getExpenses(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      final expenseList = snapshot.data;
-                      return ListView.builder(
-                        itemCount: expenseList?.length,
-                        itemBuilder: (context, index) {
-                          final expense = expenseList?[index];
-                          return Card(
-                            elevation: 4.0,
-                            margin: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: ListTile(
-                              title: Text(expense?['name']),
-                              subtitle: Text(
-                                'Amount: \$${expense?['amount']}',
-                              ),
-                              // Customize how you display each expense card here
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  },
-                ),
-              ),
+              // Second Tab (Profile)
+              ProfilePage(), // Display the ProfilePage as a tab
             ],
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _navigateToIncomeForm(context);
+            },
+            backgroundColor: Colors.blue,
+            child: const Icon(Icons.add),
+          ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _navigateToExpenseForm(context);
-          },
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+// Create a new GreetingCard widget
+class GreetingCard extends StatelessWidget {
+  final String greeting;
+  final double width;
+
+  GreetingCard(this.greeting, {required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width, // Set the width to match the screen width
+      color: Colors.orange, // Change the background color
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        greeting,
+        style: const TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          color: Colors.white, // Change the text color
         ),
       ),
     );
