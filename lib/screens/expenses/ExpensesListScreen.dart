@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter1/screens/expenses/expense_service.dart';
+import 'package:flutter1/screens/expenses/ExpenseListPage.dart';
+import 'package:flutter1/screens/expenses/expense_service.dart'; // Import your ExpenseListPage widget
 
 class ExpensesListScreen extends StatelessWidget {
   @override
@@ -21,13 +22,23 @@ class ExpensesListScreen extends StatelessWidget {
               itemCount: expenseList?.length,
               itemBuilder: (context, index) {
                 final expense = expenseList?[index];
-                return Card(
-                  elevation: 4.0,
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListTile(
-                    title: Text(expense?['name']),
-                    subtitle: Text(
-                      'Amount: \$${expense?['amount']}',
+                return GestureDetector(
+                  onTap: () {
+                    // Navigate to ExpenseListPage and pass the expense data
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ExpenseListPage(expense!),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 4.0,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(expense?['name']),
+                      subtitle: Text(
+                        'Amount: \$${expense?['amount']}',
+                      ),
                     ),
                   ),
                 );

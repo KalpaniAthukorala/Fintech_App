@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter1/screens/expenses/expense_service.dart';
+import 'package:flutter1/screens/income/IncomeListPage.dart';
+import 'package:flutter1/screens/income/income_service.dart'; // Import your IncomeListPage widget
 
 class IncomeListScreen extends StatelessWidget {
   @override
@@ -9,7 +10,8 @@ class IncomeListScreen extends StatelessWidget {
         title: Text('Income List'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: getExpenses(),
+        future:
+            getIncomes(), // Assuming you have an appropriate getIncome function
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
@@ -21,13 +23,23 @@ class IncomeListScreen extends StatelessWidget {
               itemCount: incomeList?.length,
               itemBuilder: (context, index) {
                 final income = incomeList?[index];
-                return Card(
-                  elevation: 4.0,
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListTile(
-                    title: Text(income?['name']),
-                    subtitle: Text(
-                      'Amount: \$${income?['amount']}',
+                return GestureDetector(
+                  onTap: () {
+                    // Navigate to IncomeListPage and pass the income data
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => IncomeListPage(income!),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    elevation: 4.0,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: ListTile(
+                      title: Text(income?['name']),
+                      subtitle: Text(
+                        'Amount: \$${income?['amount']}',
+                      ),
                     ),
                   ),
                 );
