@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter1/screens/expenses/ExpensesListScreen.dart';
 import 'package:flutter1/screens/expenses/expense_form.dart';
-import 'package:flutter1/screens/expenses/expense_service.dart';
+import 'package:flutter1/screens/home/SystemExplanationScreen.dart';
+import 'package:flutter1/screens/income/IncomeListScreen.dart';
 import 'package:flutter1/screens/income/income_form.dart';
 import 'package:flutter1/screens/profile/profilePage.dart';
 import 'package:flutter1/services/auth.dart';
@@ -30,6 +32,13 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => IncomeForm()),
+    );
+  }
+
+  void _navigateToExplanationPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SystemExplanationScreen()),
     );
   }
 
@@ -123,7 +132,7 @@ class _HomeState extends State<Home> {
                     color: Colors.blue,
                   ),
                   child: Text(
-                    'Drawer Header',
+                    'Fintech Menu',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -148,8 +157,8 @@ class _HomeState extends State<Home> {
                 ListTile(
                   title: Text('Income'),
                   onTap: () {
-                    Navigator.pop(context); // Close the drawers
-                    _navigateToIncomeForm(context); // Navigate to ProfilePage
+                    Navigator.pop(context); // Close the drawer
+                    _navigateToIncomeForm(context); // Navigate to IncomeForm
                   },
                 ),
                 // Add a ListTile for ProfilePage
@@ -175,105 +184,58 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 20.0), // Add spacing
 
-                  // Add a row for total balance, total income, and total expenses
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Add 6 custom cards
+                  Column(
                     children: [
-                      // Total Balance
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total Balance',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => IncomeListScreen(),
                             ),
-                          ),
-                          Text(
-                            '\$100055.00', // Replace with your total balance value
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: CustomCardWithImage(
+                          title: 'Income History',
+                          subtitle: '',
+                          imagePath: 'assets/images/income.jpeg',
+                        ),
                       ),
-                      // Total Income
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total Income',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ExpensesListScreen(),
                             ),
-                          ),
-                          Text(
-                            '\$500.00', // Replace with your total income value
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: CustomCardWithImage(
+                          title: 'Expenses History',
+                          subtitle: '',
+                          imagePath: 'assets/images/expense.png',
+                        ),
                       ),
-                      // Total Expenses
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total Expenses',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
                             ),
-                          ),
-                          Text(
-                            '\$500.00', // Replace with your total expenses value
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: CustomCardWithImage(
+                          title: 'Profile',
+                          subtitle: '',
+                          imagePath: 'assets/images/man.png',
+                        ),
                       ),
                     ],
                   ),
-                  // Add a section to display expenses
-                  Expanded(
-                    child: FutureBuilder<List<Map<String, dynamic>>>(
-                      future: getExpenses(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        } else {
-                          final expenseList = snapshot.data;
-                          return ListView.builder(
-                            itemCount: expenseList?.length,
-                            itemBuilder: (context, index) {
-                              final expense = expenseList?[index];
-                              return Card(
-                                elevation: 4.0,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: ListTile(
-                                  title: Text(expense?['name']),
-                                  subtitle: Text(
-                                    'Amount: \$${expense?['amount']}',
-                                  ),
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    ),
-                  ),
+
+                  // ... Add any additional widgets or cards as needed.
                 ],
               ),
               // Second Tab (Profile)
@@ -282,10 +244,43 @@ class _HomeState extends State<Home> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              _navigateToIncomeForm(context);
+              _navigateToExplanationPage(context);
             },
             backgroundColor: Colors.blue,
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.message),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.attach_money),
+                label: 'Income',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.money_off),
+                label: 'Expenses',
+              ),
+            ],
+            onTap: (index) {
+              if (index == 0) {
+                // Navigate to the Income screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        IncomeForm(), // Change to the Income screen widget
+                  ),
+                );
+              } else if (index == 1) {
+                // Navigate to the Expenses screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ExpenseForm(), // Change to the Expenses screen widget
+                  ),
+                );
+              }
+            },
           ),
         ),
       ),
@@ -312,6 +307,98 @@ class GreetingCard extends StatelessWidget {
           fontSize: 18.0,
           fontWeight: FontWeight.bold,
           color: Colors.white, // Change the text color
+        ),
+      ),
+    );
+  }
+}
+
+// Create a CustomCard widget for your custom cards
+class CustomCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  CustomCard({required this.title, required this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(12.0), // Adjust the corner radius as needed
+      ),
+      color: Colors.blue, // Set the background color to blue
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.white, // Set the text color to white
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            color: Colors.white, // Set the text color to white
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomCardWithImage extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String imagePath;
+
+  CustomCardWithImage({
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4.0,
+      margin: const EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      color: Colors.blue,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment
+              .center, // Align elements vertically in the center
+          children: [
+            Image.asset(
+              imagePath,
+              height: 100,
+              width: 100, // Specify a fixed width for the image
+            ),
+            SizedBox(width: 16.0), // Add spacing between image and text
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.0, // Customize the text style as needed
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
