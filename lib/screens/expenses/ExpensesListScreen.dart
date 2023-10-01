@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/screens/expenses/ExpenseListPage.dart';
-import 'package:flutter1/screens/expenses/expense_service.dart'; // Import your ExpenseListPage widget
+import 'package:flutter1/screens/expenses/Expense_service.dart'; // Import your ExpenseListPage widget
 
 class ExpensesListScreen extends StatelessWidget {
   @override
@@ -37,7 +37,7 @@ class ExpensesListScreen extends StatelessWidget {
                     child: ListTile(
                       title: Text(expense?['name']),
                       subtitle: Text(
-                        'Amount: \$${expense?['amount']}',
+                        'Amount: \Rs${expense?['amount']}',
                       ),
                     ),
                   ),

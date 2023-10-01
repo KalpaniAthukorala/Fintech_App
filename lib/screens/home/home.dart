@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/screens/expenses/ExpensesListScreen.dart';
-import 'package:flutter1/screens/expenses/expense_form.dart';
+import 'package:flutter1/screens/expenses/Expense_form.dart';
+import 'package:flutter1/screens/home/CustomCardWithImage.dart';
+import 'package:flutter1/screens/home/GreetingCard.dart';
 import 'package:flutter1/screens/home/SystemExplanationScreen.dart';
 import 'package:flutter1/screens/income/IncomeListScreen.dart';
 import 'package:flutter1/screens/income/income_form.dart';
@@ -282,123 +284,6 @@ class _HomeState extends State<Home> {
               }
             },
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// Create a new GreetingCard widget
-class GreetingCard extends StatelessWidget {
-  final String greeting;
-  final double width;
-
-  GreetingCard(this.greeting, {required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width, // Set the width to match the screen width
-      color: Colors.orange, // Change the background color
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        greeting,
-        style: const TextStyle(
-          fontSize: 18.0,
-          fontWeight: FontWeight.bold,
-          color: Colors.white, // Change the text color
-        ),
-      ),
-    );
-  }
-}
-
-// Create a CustomCard widget for your custom cards
-class CustomCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-
-  CustomCard({required this.title, required this.subtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.circular(12.0), // Adjust the corner radius as needed
-      ),
-      color: Colors.blue, // Set the background color to blue
-      child: ListTile(
-        title: Text(
-          title,
-          style: TextStyle(
-            color: Colors.white, // Set the text color to white
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: TextStyle(
-            color: Colors.white, // Set the text color to white
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomCardWithImage extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String imagePath;
-
-  CustomCardWithImage({
-    required this.title,
-    required this.subtitle,
-    required this.imagePath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4.0,
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      color: Colors.blue,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment
-              .center, // Align elements vertically in the center
-          children: [
-            Image.asset(
-              imagePath,
-              height: 100,
-              width: 100, // Specify a fixed width for the image
-            ),
-            SizedBox(width: 16.0), // Add spacing between image and text
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.0, // Customize the text style as needed
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );

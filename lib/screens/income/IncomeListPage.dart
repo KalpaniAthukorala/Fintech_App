@@ -39,7 +39,7 @@ class IncomeListPage extends StatelessWidget {
                     'Amount',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text('\$${incomeData['amount']}'), // Updated label
+                  subtitle: Text('\Rs${incomeData['amount']}'), // Updated label
                 ),
                 ListTile(
                   title: Text(

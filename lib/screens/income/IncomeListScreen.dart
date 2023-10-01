@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/screens/income/IncomeListPage.dart';
-import 'package:flutter1/screens/income/income_service.dart'; // Import your IncomeListPage widget
+import 'package:flutter1/screens/income/Income_service.dart'; // Import your IncomeListPage widget
 
 class IncomeListScreen extends StatelessWidget {
   @override
@@ -38,7 +38,7 @@ class IncomeListScreen extends StatelessWidget {
                     child: ListTile(
                       title: Text(income?['name']),
                       subtitle: Text(
-                        'Amount: \$${income?['amount']}',
+                        'Amount: \Rs${income?['amount']}',
                       ),
                     ),
                   ),

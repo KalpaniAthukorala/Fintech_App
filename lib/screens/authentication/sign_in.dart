@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter1/constants/colors.dart';
-import 'package:flutter1/constants/description.dart';
-import 'package:flutter1/constants/styles.dart';
+import 'package:flutter1/constants/Description.dart';
+import 'package:flutter1/constants/Styles.dart';
 
 import '../../services/auth.dart';
 
@@ -29,11 +29,11 @@ class _Sign_InState extends State<Sign_In> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgBlack,
+      backgroundColor: white,
       appBar: AppBar(
         title: const Text("SIGN IN"),
         elevation: 0,
-        backgroundColor: bgBlack,
+        backgroundColor: mainBlue,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -60,7 +60,7 @@ class _Sign_InState extends State<Sign_In> {
                     children: [
                       //email
                       TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: textInputDecoration,
                         validator: (val) =>
                             val!.isEmpty ? "Enter a valid email" : null,
@@ -75,7 +75,7 @@ class _Sign_InState extends State<Sign_In> {
                       //password
                       TextFormField(
                         obscureText: true,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration:
                             textInputDecoration.copyWith(hintText: "password"),
                         validator: (val) => val!.length < 6
@@ -96,7 +96,7 @@ class _Sign_InState extends State<Sign_In> {
                       //google
                       const SizedBox(height: 20),
                       const Text(
-                        "Login with social accounts",
+                        login_social,
                         style: descriptionStyle,
                       ),
                       const SizedBox(height: 20),
@@ -116,7 +116,7 @@ class _Sign_InState extends State<Sign_In> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            "Do not have an account?",
+                            login,
                             style: descriptionStyle,
                           ),
                           const SizedBox(
@@ -158,15 +158,14 @@ class _Sign_InState extends State<Sign_In> {
                           height: 40,
                           width: 200,
                           decoration: BoxDecoration(
-                              color: bgBlack,
+                              color: white,
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(width: 2, color: mainYellow)),
                           child: const Center(
                               child: Text(
                             "LOGIN",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
+                                color: mainBlue, fontWeight: FontWeight.w500),
                           )),
                         ),
                       ),
@@ -183,15 +182,14 @@ class _Sign_InState extends State<Sign_In> {
                           height: 40,
                           width: 200,
                           decoration: BoxDecoration(
-                              color: bgBlack,
+                              color: white,
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(width: 2, color: mainYellow)),
                           child: const Center(
                             child: Text(
                               "LOGIN AS GUEST",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
+                                  color: mainBlue, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ),

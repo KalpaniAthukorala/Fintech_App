@@ -4,14 +4,14 @@ import 'colors.dart';
 
 const TextStyle descriptionStyle = TextStyle(
   fontSize: 12,
-  color: textLight,
+  color: bgBlack,
   fontWeight: FontWeight.w200,
 );
 
 const textInputDecoration = InputDecoration(
-  hintText: "email",
-  hintStyle: TextStyle(color: textLight, fontSize: 15),
-  fillColor: bgBlack,
+  hintText: "Email",
+  hintStyle: TextStyle(color: mainBlue, fontSize: 15),
+  fillColor: white,
   filled: true,
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: mainYellow, width: 1),

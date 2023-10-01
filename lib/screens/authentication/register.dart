@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter1/constants/colors.dart';
-import 'package:flutter1/constants/styles.dart';
+import 'package:flutter1/constants/Styles.dart';
 import 'package:flutter1/services/auth.dart';
-import 'package:flutter1/constants/description.dart';
+import 'package:flutter1/constants/Description.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Register extends StatefulWidget {
@@ -30,11 +30,11 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgBlack,
+      backgroundColor: white,
       appBar: AppBar(
         title: const Text("REGISTER"),
         elevation: 0,
-        backgroundColor: bgBlack,
+        backgroundColor: mainBlue,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -117,7 +117,7 @@ class _RegisterState extends State<Register> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Text(
-                            "Do not have an account?",
+                            login,
                             style: descriptionStyle,
                           ),
                           const SizedBox(
@@ -167,15 +167,14 @@ class _RegisterState extends State<Register> {
                           height: 40,
                           width: 200,
                           decoration: BoxDecoration(
-                              color: bgBlack,
+                              color: white,
                               borderRadius: BorderRadius.circular(100),
                               border: Border.all(width: 2, color: mainYellow)),
                           child: const Center(
                               child: Text(
                             "REGISTER",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500),
+                                color: mainBlue, fontWeight: FontWeight.w500),
                           )),
                         ),
                       ),

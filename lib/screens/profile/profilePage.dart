@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter1/screens/home/home.dart';
+import 'package:flutter1/screens/home/Home.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';

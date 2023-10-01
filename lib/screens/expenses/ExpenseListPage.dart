@@ -39,7 +39,7 @@ class ExpenseListPage extends StatelessWidget {
                     'Amount',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  subtitle: Text('\$${expenseData['amount']}'),
+                  subtitle: Text('\Rs${expenseData['amount']}'),
                 ),
                 ListTile(
                   title: Text(

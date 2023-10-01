@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter1/models/UserModel.dart';
-import 'package:flutter1/screens/wrapper.dart';
+import 'package:flutter1/screens/Wrapper.dart';
 import 'package:flutter1/services/auth.dart';
 import 'package:provider/provider.dart';
 
